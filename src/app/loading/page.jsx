@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useData } from "../../context/DataContext";
 import { CircularProgress } from "@nextui-org/react";
+import styles from './LoadingPage.module.css'; 
 
 export default function LoadingPage() {
   const router = useRouter();
@@ -69,7 +70,7 @@ export default function LoadingPage() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+    <div className={`flex flex-col items-center justify-center min-h-screen py-2 ${styles.animatedBackground}`}>
       <h1>{loadingText}</h1>
       <CircularProgress
         aria-label="Loading..."

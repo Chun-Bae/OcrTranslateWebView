@@ -8,6 +8,7 @@ import { Image as NextImage } from "@nextui-org/react";
 import { Card, CardBody, Input } from "@nextui-org/react";
 import { Navbar, NavbarBrand, NavbarContent } from "@nextui-org/react";
 import { SearchIcon } from "./SearchIcon.jsx";
+import styles from './LoadingPage.module.css'; 
 
 export default function ResultPage() {
   const { data } = useData();
@@ -110,8 +111,8 @@ export default function ResultPage() {
     setLoading(false);
   };
 
-  if (loading) {
-    return <div>Loading images...</div>;
+  if (!loading) {
+    return <div className={`flex flex-col items-center justify-center min-h-screen py-2 ${styles.animatedBackground}`}>Thank you for your patience</div>;
   }
 
   return (
@@ -185,10 +186,10 @@ export default function ResultPage() {
                       </Chip>
                     </div>
                     <div className="mt-2">
-                      <p className="text-sm font-medium text-gray-900">
+                      <p className="text-lg font-bold font-medium text-gray-900">
                         {data.data[index]?.ko}
                       </p>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm font-bold text-gray-600">
                         {data.data[index]?.prediction}
                       </p>
                     </div>
