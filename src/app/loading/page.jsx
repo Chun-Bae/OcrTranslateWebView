@@ -1,15 +1,18 @@
+// src/app/loading/page.jsx
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useData } from "../../context/DataContext";
+import { CircularProgress } from "@nextui-org/react";
 
 export default function LoadingPage() {
   const router = useRouter();
   const { setData } = useData();
+  const [progress, setProgress] = useState(0);
+  const [loadingText, setLoadingText] = useState("Loading");
 
   useEffect(() => {
-    // Polling to check if data is available
     const interval = setInterval(async () => {
       const res = await fetch("/api/receive");
       const data = await res.json();
@@ -30,9 +33,51 @@ export default function LoadingPage() {
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, [router, setData]);
 
+  useEffect(() => {
+    const socket = new WebSocket("ws://localhost:22222/ws/progress");
+
+    socket.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      if (message.progress !== undefined) {
+        setProgress(message.progress);
+      }
+    };
+
+    return () => {
+      socket.close();
+    };
+  }, []);
+
+  useEffect(() => {
+    const loadingInterval = setInterval(() => {
+      setLoadingText((prev) => {
+        switch (prev) {
+          case "Loading":
+            return "Loading.";
+          case "Loading.":
+            return "Loading..";
+          case "Loading..":
+            return "Loading...";
+          case "Loading...":
+          default:
+            return "Loading";
+        }
+      });
+    }, 500);
+
+    return () => clearInterval(loadingInterval); // Cleanup interval on unmount
+  }, []);
+
   return (
-    <div>
-      <h1>Loading...</h1>
+    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+      <h1>{loadingText}</h1>
+      <CircularProgress
+        aria-label="Loading..."
+        size="lg"
+        value={progress}
+        color="warning"
+        showValueLabel={true}
+      />
     </div>
   );
 }
