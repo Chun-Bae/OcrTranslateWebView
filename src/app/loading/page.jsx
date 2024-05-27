@@ -35,7 +35,7 @@ export default function LoadingPage() {
   }, [router, setData]);
 
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:22222/ws/progress");
+    const socket = new WebSocket("ws://118.32.168.245:22222/ws/progress");
 
     socket.onmessage = (event) => {
       const message = JSON.parse(event.data);

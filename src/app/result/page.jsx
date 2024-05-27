@@ -111,7 +111,7 @@ export default function ResultPage() {
     setLoading(false);
   };
 
-  if (!loading) {
+  if (loading) {
     return <div className={`flex flex-col items-center justify-center min-h-screen py-2 ${styles.animatedBackground}`}>Thank you for your patience</div>;
   }
 

@@ -45,7 +45,7 @@ export async function GET() {
         } catch (deleteError) {
           console.error("Error deleting images:", deleteError);
         }
-      }, 600000000000);
+      }, 10000);
 
       //   console.log("Sending received data:", receivedData);
       return NextResponse.json({ status: "completed", data: receivedData });

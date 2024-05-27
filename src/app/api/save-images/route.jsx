@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { writeFile, mkdir } from 'fs/promises';
 import path from 'path';
 
+
+
 export async function POST(req) {
   try {
     const { original, detect, crop, data } = await req.json();
